@@ -1,0 +1,34 @@
+{
+  "name": "gnoll-ui",
+  "productName": "GnollUI",
+  "version": "0.0.0",
+  "description": "Gnoll User Interface",
+  "license": "MIT",
+  "repository": "gnoll-project/gnoll-ui",
+  "author": {
+    "name": "Matthew Conlen",
+    "email": "mc@mathisonian.com",
+    "url": "mathisonian.com"
+  },
+  "electronVersion": "0.36.0",
+  "scripts": {
+    "test": "semistandard",
+    "start": "electron src/background.js",
+    "build": "electron-packager . $npm_package_productName --out=dist --ignore='^/dist$' --prune --asar --all --version=$npm_package_electronVersion"
+  },
+  "files": [
+    "src/**"
+  ],
+  "keywords": [
+    "electron-app",
+    "electron"
+  ],
+  "dependencies": {
+    "electron-debug": "^0.5.0"
+  },
+  "devDependencies": {
+    "electron-packager": "^5.0.0",
+    "electron-prebuilt": "^0.36.0",
+    "semistandard": "^7.0.5"
+  }
+}
