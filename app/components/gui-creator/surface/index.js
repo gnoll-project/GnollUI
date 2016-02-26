@@ -1,19 +1,22 @@
 import { connect } from 'react-redux';
 import Renderer from './renderer';
-import * as GUICreatorActions from '../../../actions/gui-components';
+import * as NodeActions from '../../../actions/nodes';
 
 function mapStateToProps(state) {
   return {
-    guiComponents: state.guiComponents
+    nodes: state.nodes,
+    edges: state.edges,
+    componentToAdd: state.ui.componentToAdd
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onClick: (e) => {
-      dispatch(GUICreatorActions.addGUIComponent({
-        x: e.clientX,
-        y: e.clientY
+    onClick: (component, position) => {
+      console.log('onClick');
+      dispatch(NodeActions.addNode({
+        component,
+        position
       }));
     }
   }

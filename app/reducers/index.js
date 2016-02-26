@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
-import guiComponents from './gui-components';
+import ui from './ui';
+import nodes from './nodes';
+import edges from './edges';
 
 const rootReducer = combineReducers({
-  guiComponents
+  ui,
+  nodes,
+  edges
 });
 
 export default rootReducer;

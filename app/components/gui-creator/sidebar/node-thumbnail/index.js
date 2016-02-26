@@ -1,21 +1,20 @@
 import { connect } from 'react-redux';
 import Renderer from './renderer';
-import * as GUICreatorActions from '../../actions/gui-components';
+import * as UIActions from '../../../../actions/ui';
 
 function mapStateToProps(state, ownProps) {
   return {
-    component: ownProps.component
+    component: ownProps.component,
+    selectedComponent: state.ui.componentToAdd
   };
-};
+}
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onMouseDrag: (position) => {
-      dispatch(GUICreatorActions.updateGUIComponentPosition(ownProps.component.id, position));
+    onClick: () => {
+      dispatch(UIActions.selectComponentToAdd(ownProps.component));
     }
-  };
-};
-
-
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Renderer);

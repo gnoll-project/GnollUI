@@ -1,20 +1,24 @@
-import { ADD_GUI_COMPONENT, UPDATE_GUI_COMPONENT_POSITION } from '../actions/gui-components';
+import { ADD_NODE, UPDATE_NODE, REMOVE_NODE } from '../actions/nodes';
 
-export default function counter(state = [], action) {
+export default function nodes(state = [], action) {
   switch (action.type) {
-    case ADD_GUI_COMPONENT:
+    case ADD_NODE:
       return [...state, {
         ...action.properties
       }];
-    case UPDATE_GUI_COMPONENT_POSITION:
+    case UPDATE_NODE:
       return state.map((component) => {
         if(component.id === action.id) {
           return {
             ...component,
-            position: action.position
+            ...action.properties
           };
         }
         return component;
+      });
+    case REMOVE_NODE:
+      return state.filter((component) => {
+        return component.id !== action.id;
       });
     default:
       return state;

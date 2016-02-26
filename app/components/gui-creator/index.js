@@ -1,21 +1,17 @@
 import React from 'react';
-import GUIComponent from '../gui-component';
 import Surface from './surface';
-import SidebarContent from './sidebar';
-import Sidebar from 'react-sidebar';
-
-var styles = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0
-};
+import Sidebar from './sidebar';
+import styles from './shelves.css';
 
 export default () => {
   return (
-    <Sidebar sidebar={SidebarContent}>
-      <Surface />
-    </Sidebar>
+    <div className="row">
+      <div className="column-3">
+        <Sidebar />
+      </div>
+      <div className="column-9">
+        <Surface />
+      </div>
+    </div>
   );
 };
