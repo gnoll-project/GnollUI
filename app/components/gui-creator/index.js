@@ -1,22 +1,21 @@
-import { connect } from 'react-redux';
-import Renderer from './renderer';
-import * as GUICreatorActions from '../../actions/gui-components';
+import React from 'react';
+import GUIComponent from '../gui-component';
+import Surface from './surface';
+import SidebarContent from './sidebar';
+import Sidebar from 'react-sidebar';
 
-function mapStateToProps(state) {
-  return {
-    guiComponents: state.guiComponents
-  };
-}
+var styles = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onClick: (e) => {
-      dispatch(GUICreatorActions.addGUIComponent({
-        x: e.clientX,
-        y: e.clientY
-      }));
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Renderer);
+export default () => {
+  return (
+    <Sidebar sidebar={SidebarContent}>
+      <Surface />
+    </Sidebar>
+  );
+};

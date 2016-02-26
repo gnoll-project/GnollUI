@@ -1,5 +1,5 @@
 import React from 'react';
-import GUIComponent from '../gui-component';
+import GUIComponent from '../../gui-component';
 
 var styles = {
   position: 'absolute',
