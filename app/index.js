@@ -4,8 +4,17 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import routes from './routes';
 import configureStore from './store/configure-store';
+import net from 'net';
 
 const store = configureStore();
+
+net.createServer((socket) => {
+  socket.on('data', (data) => {
+    const action = JSON.parse(data);
+    store.dispatch(action);
+  });
+}).listen(7999);
+
 
 render(
   <Provider store={store}>

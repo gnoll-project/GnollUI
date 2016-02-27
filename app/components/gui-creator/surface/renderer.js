@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NodeContainer from '../../nodes/container';
+import { getNodeType } from '../../../constants/components';
 
 const styles = {
 
@@ -29,18 +30,17 @@ export default class Base extends Component {
       return;
     }
 
-    console.log(e);
     const offset = this.refs.surface.getBoundingClientRect();
-    console.log(offset);
     const position = {
       x: e.clientX - offset.left,
       y: e.clientY - offset.top,
     };
 
-    console.log(position);
-    console.log(this.props.componentToAdd);
-
-    this.props.onClick(this.props.componentToAdd, position);
+    this.props.onClick({
+      component: this.props.componentToAdd,
+      nodeType: getNodeType(this.props.componentToAdd),
+      position: position
+    });
   }
 
   render () {

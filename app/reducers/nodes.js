@@ -9,10 +9,7 @@ export default function nodes(state = [], action) {
     case UPDATE_NODE:
       return state.map((component) => {
         if(component.id === action.id) {
-          return {
-            ...component,
-            ...action.properties
-          };
+          return Object.assign({}, component, action.properties);
         }
         return component;
       });

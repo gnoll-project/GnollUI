@@ -3,6 +3,9 @@ import Renderer from './renderer';
 import * as NodeActions from '../../../actions/nodes';
 
 function mapStateToProps(state) {
+
+  console.log(JSON.stringify(state));
+
   return {
     nodes: state.nodes,
     edges: state.edges,
@@ -12,12 +15,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onClick: (component, position) => {
-      console.log('onClick');
-      dispatch(NodeActions.addNode({
-        component,
-        position
-      }));
+    onClick: (properties) => {
+      dispatch(NodeActions.addNode(properties));
     }
   }
 }

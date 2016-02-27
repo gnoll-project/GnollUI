@@ -19,15 +19,13 @@ const getStyle = (node, isSelected) => {
 };
 
 const validateEdge = (from, to) => {
-  const fromType = COMPONENTS.getNodeType(from);
-  const toType = COMPONENTS.getNodeType(to);
-
-  if((fromType === COMPONENTS.DATA_NODE && toType === COMPONENTS.TRANSFORM_NODE) ||
-     (fromType === COMPONENTS.TRANSFORM_NODE && toType === COMPONENTS.SINK_NODE)) {
-    return true;
+  const fromType = COMPONENTS.getNodeType(from.component);
+  const toType = COMPONENTS.getNodeType(to.component);
+  if(fromType === COMPONENTS.TRANSFORM_NODE) {
+      return COMPONENTS.NODE_TYPES.indexOf(fromType) <= COMPONENTS.NODE_TYPES.indexOf(toType);
   }
 
-  return false;
+  return COMPONENTS.NODE_TYPES.indexOf(fromType) < COMPONENTS.NODE_TYPES.indexOf(toType);
 }
 
 export default class Renderer extends Component {

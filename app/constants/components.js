@@ -36,8 +36,7 @@ export const REACT_COMPONENT_MAP = {
   SCATTER_COMPONENT: ScatterComponent
 };
 
-export const getNodeType = (node) => {
-  const component = node.component;
+export const getNodeType = (component) => {
   const nodeTypes = NODE_TYPES.filter((t) => {
     return COMPONENTS[t].indexOf(component) > -1;
   });
