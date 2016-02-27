@@ -6,7 +6,8 @@ function mapStateToProps(state) {
   return {
     nodes: state.nodes,
     edges: state.edges,
-    componentToAdd: state.ui.componentToAdd
+    componentToAdd: state.ui.componentToAdd,
+    selectedNode: state.ui.selectedNode
   };
 }
 
@@ -14,6 +15,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onClick: (properties) => {
       dispatch(NodeActions.addNode(properties));
+    },
+    deleteNode: (node) => {
+      dispatch(NodeActions.removeNode(node.id));
     }
   }
 }

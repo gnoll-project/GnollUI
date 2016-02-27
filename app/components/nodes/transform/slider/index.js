@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import BaseNode from '../../base';
 import { VictoryLine } from "victory";
 import _ from 'lodash';
-
 import net from 'net';
 
 export default class Renderer extends BaseNode {

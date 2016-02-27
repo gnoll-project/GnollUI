@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as COMPONENTS from '../../../constants/components';
+import shouldPureComponentUpdate from 'react-pure-render/function';
 
 const getReactComponent = (node) => {
   return COMPONENTS.REACT_COMPONENT_MAP[node.component];
@@ -29,6 +30,7 @@ const validateEdge = (from, to) => {
 }
 
 export default class Renderer extends Component {
+  shouldComponentUpdate = shouldPureComponentUpdate;
 
   constructor(props) {
     super(props);
@@ -59,7 +61,9 @@ export default class Renderer extends Component {
   }
 
   render() {
+
     const node = this.props.node;
+    console.log('rendering node ' + node.id);
     const C = getReactComponent(node);
     const isSelected = this.props.selectedNode && this.props.selectedNode.id === node.id;
 

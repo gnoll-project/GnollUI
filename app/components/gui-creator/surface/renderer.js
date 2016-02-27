@@ -3,13 +3,11 @@ import NodeContainer from '../../nodes/container';
 import { getNodeType } from '../../../constants/components';
 
 const styles = {
-
   container: {
     height: '100vh',
     position: 'relative',
     borderLeft: 'solid 1px black'
   },
-
   edge: {
     stroke: 'black',
     strokeWidth: 2,
@@ -53,14 +51,18 @@ export default class Base extends Component {
     }, {});
 
     return (
-      <div ref='surface' onClick={this.handleSurfaceClick} style={styles.container}>
+      <div
+        ref='surface'
+        onClick={this.handleSurfaceClick}
+        style={styles.container} >
         <svg width="100%" height="100%">
-          {Object.keys(edges).map((fromId) => {
+          {Object.keys(edges).map((fromId, i) => {
             const fromNode = nodeMap[fromId];
             const toNode = nodeMap[edges[fromId]];
 
             return (
               <line
+                key={i}
                 x1={fromNode.position.x}
                 y1={fromNode.position.y}
                 x2={toNode.position.x}

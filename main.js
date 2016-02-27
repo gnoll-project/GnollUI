@@ -11,8 +11,10 @@ let menu;
 let template;
 let mainWindow = null;
 
-
-crashReporter.start();
+crashReporter.start({
+  companyName: 'GnollUI',
+  submitURL: ''
+});
 
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')();
