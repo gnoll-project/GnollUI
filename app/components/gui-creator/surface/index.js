@@ -3,9 +3,6 @@ import Renderer from './renderer';
 import * as NodeActions from '../../../actions/nodes';
 
 function mapStateToProps(state) {
-
-  console.log(JSON.stringify(state));
-
   return {
     nodes: state.nodes,
     edges: state.edges,

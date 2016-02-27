@@ -60,8 +60,6 @@ export default class Renderer extends Component {
 
   render() {
     const node = this.props.node;
-
-    console.log(node);
     const C = getReactComponent(node);
     const isSelected = this.props.selectedNode && this.props.selectedNode.id === node.id;
 

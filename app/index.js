@@ -7,11 +7,15 @@ import configureStore from './store/configure-store';
 import net from 'net';
 
 const store = configureStore();
+export const sockets = [];
 
 net.createServer((socket) => {
   socket.on('data', (data) => {
-    const action = JSON.parse(data);
-    store.dispatch(action);
+    try {
+      const action = JSON.parse(data);
+      store.dispatch(action);
+    } catch(e) {
+    }
   });
 }).listen(7999);
 
