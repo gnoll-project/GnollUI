@@ -31,7 +31,6 @@ app.on('window-all-closed', () => {
 
 app.on('ready', () => {
 
-  console.log('here we gooo');
   mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
   if (process.env.HOT) {

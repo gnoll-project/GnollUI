@@ -35,9 +35,7 @@ export const runCodeInKernal = (cmd) => {
 
 export const setup = () => {
 
-  // console.log('hellllllllllllo');
   spawnteract.launch('python3').then((kernel) => {
-    console.log(kernel);
     shell = createShellSubject(identity, kernel.config);
     shell.subscribe(console.log);
     //

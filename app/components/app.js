@@ -6,7 +6,6 @@ export default class App extends Component {
   };
 
   render() {
-    console.log('rendering apppp');
     return (
       <div>
         {this.props.children}
