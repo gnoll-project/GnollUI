@@ -2,6 +2,8 @@ export const ADD_NODE = 'ADD_NODE';
 export const REMOVE_NODE = 'REMOVE_NODE';
 export const UPDATE_NODE = 'UPDATE_NODE';
 
+import { runCodeInKernal } from '../kernel/';
+
 let componentId = 0;
 
 export function addNode(properties) {
@@ -30,4 +32,17 @@ export function removeNode(id) {
     type: REMOVE_NODE,
     id: id
   };
+};
+
+export function sendToKernal(id, code) {
+  return (dispatch) => {
+    runCodeInKernal(code).then((e) => {
+      console.log(e);
+
+      dispatch({
+        type: REMOVE_NODE
+      })
+    })
+  }
+
 };

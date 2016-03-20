@@ -6,7 +6,7 @@ import routes from './routes';
 import configureStore from './store/configure-store';
 import net from 'net';
 
-import { setup } from './kernel';
+import * as Kernel from './kernel';
 
 const store = configureStore();
 export const sockets = [];
@@ -21,18 +21,18 @@ net.createServer((socket) => {
   });
 }).listen(7999);
 
-setup();
+Kernel.setup().then(() => {  
+  render(
+    <Provider store={store}>
+      <Router>
+        {routes}
+      </Router>
+    </Provider>,
+    document.getElementById('root')
+  );
+});
 
 // setup().then(() =)
-
-render(
-  <Provider store={store}>
-    <Router>
-      {routes}
-    </Router>
-  </Provider>,
-  document.getElementById('root')
-);
 
 if (process.env.NODE_ENV !== 'production') {
   // Use require because imports can't be conditional.

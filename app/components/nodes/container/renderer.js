@@ -4,6 +4,7 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import brace from 'brace';
 import AceEditor from 'react-ace';
 
+
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
@@ -81,7 +82,9 @@ export default class Renderer extends Component {
   }
 
   handleEditorSubmit (e) {
-    const code = this.node.props.code;
+    const code = this.props.node.code;
+    console.log('sendng code');
+    this.props.sendCodeToKernal(code);
   }
 
   renderEditor(isSelected) {
@@ -105,7 +108,6 @@ export default class Renderer extends Component {
             exec: this.handleEditorSubmit
           }
         ]}
-        onClick={this.handleEditorClick}
         onChange={this.handleEditorChanged}
         name={this.props.node.id.toString()}
         editorProps={{$blockScrolling: true}}

@@ -4,6 +4,7 @@ import * as UIActions from '../../../actions/ui';
 import * as EdgeActions from '../../../actions/edges';
 import * as NodeActions from '../../../actions/nodes';
 
+import { runCodeInKernal } from '../../../kernel';
 console.log(UIActions)
 
 function mapStateToProps(state, ownProps) {
@@ -31,6 +32,11 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(NodeActions.updateNode(ownProps.node.id, {
         code: newCode
       }));
+    },
+
+    sendCodeToKernal: (code) => {
+      // dispatch(NodeActions.sendToKernal(ownProps.node.id, code));
+      runCodeInKernal(code);
     }
   }
 }

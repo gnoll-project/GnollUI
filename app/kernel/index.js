@@ -1,12 +1,12 @@
 import fs from 'fs';
 import uuid from 'node-uuid';
 import spawnteract from 'spawnteract';
-import { createShellSubject } from 'enchannel-zmq-backend'
+import { createShellSubject } from 'enchannel-zmq-backend';
 
 const identity = uuid.v4();
 const sessionId = uuid.v4();
 
-let shell = null;
+let shell, kernel;
 
 
 const generatePayload = (cmd) => {
@@ -15,7 +15,7 @@ const generatePayload = (cmd) => {
     header: {
       msg_id: 'execute_' + msgId,
       username: 'gnoll',
-      session: session,
+      session: sessionId,
       msg_type: 'execute_request',
       version: '5.0',
     },
@@ -30,15 +30,44 @@ const generatePayload = (cmd) => {
 };
 
 export const runCodeInKernal = (cmd) => {
-  return shell.next(generatePayload(cmd));
+  const payload = generatePayload(cmd);
+  shell.next(payload);
+}
+
+export const shutdown = () => {
+  console.log('kernel shutdown');
+  kernel.spawn.kill();
+  fs.unlink(kernel.connectionFile);
 }
 
 export const setup = () => {
+  console.log('kernel setup');
+    return spawnteract.launch('python2').then((k) => {
+    kernel = k;
 
-  spawnteract.launch('python3').then((kernel) => {
+    const request = {
+      header: {
+        username: 'gnoll',
+        sessionId,
+        msg_type: 'kernel_info_request',
+        msg_id: uuid.v4(),
+        date: new Date(),
+        version: '5.0',
+      },
+      metadata: {},
+      parent_header: {},
+      content: {},
+    };
+
     shell = createShellSubject(identity, kernel.config);
-    shell.subscribe(console.log);
-    //
-    // /// TODO - initialize gnoll python code
+    shell
+     .subscribe(content => {
+       console.log(content);
+     });
+
+     const initialPython = require('./init.py');
+
+     shell.next(request);
+     shell.next(generatePayload(initialPython))
   });
 }

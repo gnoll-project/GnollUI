@@ -12,6 +12,10 @@ module.exports = {
     }, {
       test: /\.json$/,
       loader: 'json-loader'
+    }, {
+      test: /\.py$/,
+      loader: 'raw-loader',
+      exclude: /node_modules/
     }]
   },
   output: {
