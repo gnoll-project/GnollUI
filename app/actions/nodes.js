@@ -11,6 +11,7 @@ export function addNode(properties) {
       id: componentId++,
       width: 300,
       height: 300,
+      code: 'def f(in, out):',
       ...properties
     }
   };

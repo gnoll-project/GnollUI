@@ -6,6 +6,8 @@ import routes from './routes';
 import configureStore from './store/configure-store';
 import net from 'net';
 
+import { setup } from './kernel';
+
 const store = configureStore();
 export const sockets = [];
 
@@ -19,6 +21,9 @@ net.createServer((socket) => {
   });
 }).listen(7999);
 
+setup();
+
+// setup().then(() =)
 
 render(
   <Provider store={store}>

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Renderer from './renderer';
 import * as UIActions from '../../../actions/ui';
 import * as EdgeActions from '../../../actions/edges';
-
+import * as NodeActions from '../../../actions/nodes';
 
 console.log(UIActions)
 
@@ -13,7 +13,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     selectNode: (node) => {
       dispatch(UIActions.selectNode(node));
@@ -25,6 +25,12 @@ function mapDispatchToProps(dispatch) {
 
     toggleEdge: (fromNode, toNode) => {
       dispatch(EdgeActions.toggleEdge(fromNode.id, toNode.id));
+    },
+
+    updateCode: (newCode) => {
+      dispatch(NodeActions.updateNode(ownProps.node.id, {
+        code: newCode
+      }));
     }
   }
 }

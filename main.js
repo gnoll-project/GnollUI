@@ -11,6 +11,9 @@ let menu;
 let template;
 let mainWindow = null;
 
+console.log('main');
+
+
 crashReporter.start({
   companyName: 'GnollUI',
   submitURL: ''
@@ -27,6 +30,8 @@ app.on('window-all-closed', () => {
 
 
 app.on('ready', () => {
+
+  console.log('here we gooo');
   mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
   if (process.env.HOT) {
