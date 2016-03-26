@@ -1,4 +1,4 @@
-export const ADD_NODE = 'ADD_NODE';
+  export const ADD_NODE = 'ADD_NODE';
 export const REMOVE_NODE = 'REMOVE_NODE';
 export const UPDATE_NODE = 'UPDATE_NODE';
 
@@ -37,12 +37,9 @@ export function removeNode(id) {
 export function sendToKernal(id, code) {
   return (dispatch) => {
     runCodeInKernal(code).then((e) => {
-      console.log(e);
-
       dispatch({
         type: REMOVE_NODE
       })
     })
   }
-
 };
