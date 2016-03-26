@@ -4,5 +4,9 @@ export const getInitializationCode = () => {
 };
 
 export const setGraph = (graphSpec) => {
-  return `gc.parse_spec(json.loads('${JSON.stringify(graphSpec)}'))`;
+  return `gc.parse_spec(json.loads('''${JSON.stringify(graphSpec)}'''))`;
+};
+
+export const setFunctionForNode = (nodeId, code) => {
+  return `${code}\r\ngc.selection.find_by_id(${nodeId}).set_transform(f)`;
 };

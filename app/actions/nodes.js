@@ -1,22 +1,30 @@
-  export const ADD_NODE = 'ADD_NODE';
+export const ADD_NODE = 'ADD_NODE';
 export const REMOVE_NODE = 'REMOVE_NODE';
 export const UPDATE_NODE = 'UPDATE_NODE';
 
-import { runCodeInKernal } from '../kernel/';
+import { setFunctionForNode, syncGraph } from '../kernel/';
 
 let componentId = 0;
 
 export function addNode(properties) {
-  return {
-    type: ADD_NODE,
-    properties: {
-      id: componentId++,
-      width: 300,
-      height: 300,
-      code: 'def f(in, out):',
-      ...properties
-    }
-  };
+  return (dispatch, getState) => {
+    dispatch({
+      type: ADD_NODE,
+      properties: {
+        id: componentId++,
+        width: 300,
+        height: 300,
+        code: 'def f():',
+        ...properties
+      }
+    });
+
+    const { nodes, edges } = getState();
+    syncGraph({
+      nodes,
+      edges
+    });
+  }
 };
 
 export function updateNode(id, properties) {
@@ -36,10 +44,13 @@ export function removeNode(id) {
 
 export function sendToKernal(id, code) {
   return (dispatch) => {
-    runCodeInKernal(code).then((e) => {
-      dispatch({
-        type: REMOVE_NODE
-      })
-    })
+    setFunctionForNode(id, code);
+    dispatch({
+      type: UPDATE_NODE,
+      id: id,
+      properties: {
+        code: code
+      }
+    });
   }
 };

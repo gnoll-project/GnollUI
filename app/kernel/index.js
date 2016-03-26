@@ -12,7 +12,9 @@ const identity = uuid.v4();
 
 let shell, kernel;
 
-export const runCodeInKernal = (cmd) => {
+const _runCodeInKernal = (cmd) => {
+  console.log('running code:');
+  console.log(cmd);
   const payload = generatePayload(cmd);
   shell.next(payload);
 }
@@ -25,18 +27,36 @@ export const shutdown = () => {
 
 export const setup = () => {
   return spawnteract.launch(CURRENT_LANGUAGE).then((k) => {
-  kernel = k;
-  shell = createShellSubject(identity, kernel.config);
-  shell
-   .subscribe(content => {
-     console.log(content);
-   });
+    kernel = k;
+    shell = createShellSubject(identity, kernel.config);
+    shell
+     .subscribe(message => {
+       if (message.content.status && message.content.status !== 'ok') {
+         console.log(message.content);
+       }
+     });
 
-   shell.next(initialPayload);
-   shell.next(generatePayload(language.getInitializationCode()));
-});
+     shell.next(initialPayload);
+     shell.next(generatePayload(language.getInitializationCode()));
+  });
 }
 
-export const syncGraph = () => {
-  runCodeInKernal(language.setGraph());
+export const syncGraph = (graphSpec) => {
+  // filter out the un-used properties
+  const nodes = graphSpec.nodes.map((node) => {
+    const { id, nodeType } = node;
+    return {
+      id,
+      nodeType
+    };
+  });
+
+  _runCodeInKernal(language.setGraph({
+    nodes: nodes,
+    edges: graphSpec.edges
+  }));
+};
+
+export const setFunctionForNode = (nodeId, f) => {
+  _runCodeInKernal(language.setFunctionForNode(nodeId, f));
 };
