@@ -1,6 +1,8 @@
 import uuid from 'node-uuid';
 
-export const generatePayload = (cmd, sessionId) => {
+const sessionId = uuid.v4();
+
+export const generatePayload = (cmd) => {
   const msgId = uuid.v4();
   return {
     header: {

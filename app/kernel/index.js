@@ -9,12 +9,11 @@ const CURRENT_LANGUAGE = 'python2';
 const language = languages[CURRENT_LANGUAGE];
 
 const identity = uuid.v4();
-const sessionId = uuid.v4();
 
 let shell, kernel;
 
 export const runCodeInKernal = (cmd) => {
-  const payload = generatePayload(cmd, sessionId);
+  const payload = generatePayload(cmd);
   shell.next(payload);
 }
 
@@ -34,7 +33,7 @@ export const setup = () => {
    });
 
    shell.next(initialPayload);
-   shell.next(generatePayload(language.getInitializationCode(), generatePayload));
+   shell.next(generatePayload(language.getInitializationCode()));
 });
 }
 
