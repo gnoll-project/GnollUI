@@ -21,6 +21,10 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(UIActions.unselectNode());
     },
 
+    removeNode: () => {
+      dispatch(NodeActions.removeNode(ownProps.node.id));
+    },
+
     toggleEdge: (fromNode, toNode) => {
       dispatch(EdgeActions.toggleEdge(fromNode.id, toNode.id));
     },

@@ -1,29 +1,24 @@
 import React, { Component } from 'react';
 import * as COMPONENTS from '../../../constants/components';
 import shouldPureComponentUpdate from 'react-pure-render/function';
-import brace from 'brace';
-import AceEditor from 'react-ace';
-
-
-import 'brace/mode/python';
-import 'brace/theme/monokai';
+import Editor from './editor';
+import TopBar from './top-bar';
+import { DragSource } from 'react-dnd';
 
 const getReactComponent = (node) => {
   return COMPONENTS.REACT_COMPONENT_MAP[node.component];
 };
 
-const getStyle = (node, isSelected) => {
+const getStyles = (node, isSelected) => {
   return {
-    position: 'absolute',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderTopWidth: 5,
-    borderColor: isSelected ? 'blue' : 'black',
-    backgroundColor: '#D8D8D8',
-    left: node.position.x,
-    top: node.position.y,
-    zIndex: isSelected ? 1000 : 100
-  }
+    outer: {
+      position: 'absolute',
+      backgroundColor: '#D8D8D8',
+      left: node.position.x,
+      top: node.position.y,
+      zIndex: isSelected ? 1000 : 100
+    }
+  };
 };
 
 const validateEdge = (from, to) => {
@@ -45,6 +40,10 @@ export default class Renderer extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleEditorChanged = this.handleEditorChanged.bind(this);
     this.handleEditorSubmit = this.handleEditorSubmit.bind(this);
+  }
+
+  handleOuterClick (e) {
+    e.stopPropagation();
   }
 
   handleClick (e) {
@@ -69,50 +68,21 @@ export default class Renderer extends Component {
     }
   }
 
-  handleOuterClick (e) {
-    e.stopPropagation();
-  }
-
-  handleEditorClick (e) {
-    e.stopPropagation();
-  }
-
   handleEditorChanged (newValue) {
     this.props.updateCode(newValue);
   }
 
   handleEditorSubmit (e) {
     const code = this.props.node.code;
-    console.log('sendng code');
     this.props.sendCodeToKernal(code);
   }
 
   renderEditor(isSelected) {
-    if(!isSelected) {
-      return null;
-    }
-
     return (
-      <AceEditor
-        mode='python'
-        theme='monokai'
-        height={200 + 'px'}
-        width={250 + 'px'}
-        tabSize={2}
-        commands={[
-          {
-            name: 'execute',
-            bindKey: {
-              mac: 'Shift-Enter'
-            },
-            exec: this.handleEditorSubmit
-          }
-        ]}
+      <Editor
+        onSubmit={this.handleEditorSubmit}
         onChange={this.handleEditorChanged}
-        name={this.props.node.id.toString()}
-        editorProps={{$blockScrolling: true}}
-        value={this.props.node.code}
-      />
+        node={this.props.node} />
     );
   }
 
@@ -120,13 +90,17 @@ export default class Renderer extends Component {
     const node = this.props.node;
     const C = getReactComponent(node);
     const isSelected = this.props.selectedNode && this.props.selectedNode.id === node.id;
+    const styles = getStyles(node, isSelected);
 
     return (
-      <div style={getStyle(node, isSelected)} onClick={this.handleOuterClick}>
-        <div onClick={this.handleClick}>
-          <C node={node} />
-        </div>
-        {this.renderEditor(isSelected)}
+      <div
+        style={styles.outer}
+        onClick={this.handleOuterClick}>
+          <TopBar node={node} />
+          <div onClick={this.handleClick}>
+            <C node={node} />
+          </div>
+          {isSelected ? this.renderEditor() : null}
       </div>
     );
   }
