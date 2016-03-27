@@ -21,6 +21,21 @@ const getStyles = (node, isSelected) => {
   const outerPadding = 10;
   const svgSize = 2 * (expandedCircleRadius + outerPadding);
 
+  console.log(node)
+
+  function color () {
+    switch (node.nodeType) {
+      case 'DATA_NODE':
+        return 'rgb(254,224,69)'
+      case 'TRANSFORM_NODE':
+        return 'rgb(207,117,40)'
+      default:
+        return 'rgb(228,30,37)'
+    }
+  }
+
+  console.log(node)
+
   return {
     svg: {
       position: 'relative',
@@ -34,9 +49,9 @@ const getStyles = (node, isSelected) => {
       r: circleRadius,
       cx: svgSize / 2,
       cy: svgSize / 2,
-      fill: isSelected ? 'blue' : 'white',
-      stroke: isSelected ? 'blue' : 'orange',
-      strokeWidth: 3,
+      fill: isSelected ? 'blue' : 'rgb(29,31,31)',
+      stroke: isSelected ? 'blue' : color(),
+      strokeWidth: 5,
       cursor: 'pointer'
     }
   };
