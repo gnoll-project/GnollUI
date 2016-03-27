@@ -11,8 +11,8 @@ const styles = {
     borderLeft: 'solid 2px rgb(113,115,117)'
   },
   edge: {
-    stroke: 'black',
-    strokeWidth: 2,
+    stroke: 'rgb(186,188,190)',
+    strokeWidth: 3,
     fill: 'black'
   }
 };
