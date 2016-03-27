@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import { VictoryAnimation } from "victory";
 import * as COMPONENTS from '../../../../constants/components';
+import Draggable from '../draggable';
 
 const validateEdge = (from, to) => {
   const fromType = COMPONENTS.getNodeType(from.component);
@@ -79,13 +80,15 @@ export default class Renderer extends Component {
     const styles = getStyles(node, isSelected);
 
     return (
-      <svg style={styles.svg}>
-        <VictoryAnimation data={styles.circle} duration={250}>
-          {(style) => {
-            return <circle style={style} onClick={this.handleClick} />
-          }}
-        </VictoryAnimation>
-      </svg>
+      <Draggable node={node}>
+        <svg style={styles.svg}>
+          <VictoryAnimation data={styles.circle} duration={250}>
+            {(style) => {
+              return <circle style={style} onClick={this.handleClick} />
+            }}
+          </VictoryAnimation>
+        </svg>
+      </Draggable>
     );
   }
 }
