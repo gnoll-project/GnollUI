@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
-export default class App extends Component {
+class App extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired
   };
@@ -21,3 +23,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(App);

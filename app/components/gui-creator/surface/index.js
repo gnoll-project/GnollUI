@@ -16,6 +16,12 @@ function mapDispatchToProps(dispatch) {
     onClick: (properties) => {
       dispatch(NodeActions.addNode(properties));
     },
+
+
+    updateNode: (id, properties) => {
+      dispatch(NodeActions.updateNode(id, properties));
+    },
+
     deleteNode: (node) => {
       dispatch(NodeActions.removeNode(node.id));
     }
