@@ -5,7 +5,7 @@ import * as COMPONENTS from '../../../../constants/components';
 import Draggable from '../draggable';
 import Path from 'svg-path-generator';
 
-const circleRadius = 30;
+const circleRadius = 25;
 const outerPadding = 10;
 const svgSize = 2 * (circleRadius + outerPadding);
 
