@@ -108,6 +108,7 @@
     "redux": "^3.2.1",
     "redux-thunk": "^2.0.1",
     "spawnteract": "^1.0.3",
+    "svg-path-generator": "^1.1.0",
     "victory": "^0.4.0"
   },
   "devEngines": {

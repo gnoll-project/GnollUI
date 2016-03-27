@@ -90,7 +90,7 @@ export default class Renderer extends Component {
         onClick={this.handleOuterClick}>
 
         <Icon node={node} />
-
+        {isSelected ? this.renderEditor() : null}
 
           {/*<TopBar node={node} />
           <div onClick={this.handleClick}>

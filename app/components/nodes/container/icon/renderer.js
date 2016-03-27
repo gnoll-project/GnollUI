@@ -3,6 +3,11 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import { VictoryAnimation } from "victory";
 import * as COMPONENTS from '../../../../constants/components';
 import Draggable from '../draggable';
+import Path from 'svg-path-generator';
+
+const circleRadius = 25;
+const outerPadding = 10;
+const svgSize = 2 * (circleRadius + outerPadding);
 
 const validateEdge = (from, to) => {
   const fromType = COMPONENTS.getNodeType(from.component);
@@ -15,12 +20,6 @@ const validateEdge = (from, to) => {
 }
 
 const getStyles = (node, isSelected) => {
-  const expandedCircleRadius = 20;
-  const smallCircleRadius = 10;
-  const circleRadius = isSelected ? smallCircleRadius : expandedCircleRadius;
-  const outerPadding = 10;
-  const svgSize = 2 * (expandedCircleRadius + outerPadding);
-
   function color () {
     switch (node.nodeType) {
       case 'DATA_NODE':
@@ -38,17 +37,16 @@ const getStyles = (node, isSelected) => {
       top: - svgSize / 2,
       left: - svgSize / 2,
       width: svgSize,
-      height: svgSize
+      height: svgSize,
+      cursor: 'pointer'
     },
-
     circle: {
       r: circleRadius,
       cx: svgSize / 2,
       cy: svgSize / 2,
-      fill: isSelected ? color() : 'rgb(29,31,31)',
-      stroke: isSelected ? color() : color(),
-      strokeWidth: 5,
-      cursor: 'pointer'
+      strokeWidth: isSelected ? 5 : 3,
+      fill: isSelected ? 'blue' : 'rgb(29,31,31)',
+      stroke: isSelected ? 'blue' : color()
     }
   };
 };
@@ -85,6 +83,41 @@ export default class Renderer extends Component {
     }
   }
 
+  _getArcPositionAtAngle(angle) {
+    return {
+      x: svgSize / 2 + circleRadius * Math.cos(angle),
+      y: svgSize / 2 + circleRadius * Math.sin(angle)
+    }
+  }
+
+  _generateButtonPath(start, end) {
+    return new Path()
+                .moveTo(start.x, start.y)
+                .ellipticalArc(circleRadius, circleRadius, 0, 0, 1, end.x, end.y)
+                .close();
+  }
+
+  getLeftButtonPath() {
+    const start = this._getArcPositionAtAngle(Math.PI / 2);
+    const end = this._getArcPositionAtAngle(Math.PI * 3 / 2);
+    return this._generateButtonPath(start, end);
+  }
+
+  getRightButtonPath() {
+    const start = this._getArcPositionAtAngle(Math.PI * 3 / 2);
+    const end = this._getArcPositionAtAngle(Math.PI / 2);
+    return this._generateButtonPath(start, end);
+  }
+
+  renderSelected(styles) {
+    return (
+      <g>
+        <path d={this.getLeftButtonPath()} style={{fill: 'yellow'}} />
+        <path d={this.getRightButtonPath()} style={{fill: 'orange'}} />
+      </g>
+    );
+  }
+
   render() {
     const node = this.props.node;
     const isSelected = this.props.selectedNode && this.props.selectedNode.id === node.id;
@@ -92,12 +125,9 @@ export default class Renderer extends Component {
 
     return (
       <Draggable node={node}>
-        <svg style={styles.svg}>
-          <VictoryAnimation data={styles.circle} duration={250}>
-            {(style) => {
-              return <circle style={style} onClick={this.handleClick} />
-            }}
-          </VictoryAnimation>
+        <svg style={styles.svg} onClick={this.handleClick}>
+          <circle style={styles.circle} />
+          {isSelected ? this.renderSelected() : null}
         </svg>
       </Draggable>
     );
