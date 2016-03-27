@@ -11,30 +11,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    selectNode: (node) => {
-      dispatch(UIActions.selectNode(node));
-    },
-
-    unselectNode: (node) => {
-      dispatch(UIActions.unselectNode());
-    },
-
-    toggleEdge: (fromNode, toNode) => {
-      dispatch(EdgeActions.toggleEdge(fromNode.id, toNode.id));
-    },
-
-    updateCode: (newCode) => {
-      dispatch(NodeActions.updateNode(ownProps.node.id, {
-        code: newCode
-      }));
-    },
-
-    sendCodeToKernal: (code) => {
-      dispatch(NodeActions.sendToKernal(ownProps.node.id, code));
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Renderer);
+export default connect(mapStateToProps)(Renderer);
