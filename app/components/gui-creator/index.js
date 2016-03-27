@@ -1,7 +1,8 @@
 import React from 'react';
 import Surface from './surface';
 import Sidebar from './sidebar';
-import styles from './shelves.css';
+import shelves from './shelves.css';
+import styles from './style.css';
 
 export default () => {
   return (

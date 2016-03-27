@@ -20,6 +20,16 @@ const validateEdge = (from, to) => {
 }
 
 const getStyles = (node, isSelected) => {
+  function color () {
+    switch (node.nodeType) {
+      case 'DATA_NODE':
+        return 'rgb(254,224,69)'
+      case 'TRANSFORM_NODE':
+        return 'rgb(207,117,40)'
+      default:
+        return 'rgb(228,30,37)'
+    }
+  }
 
   return {
     svg: {
@@ -30,14 +40,13 @@ const getStyles = (node, isSelected) => {
       height: svgSize,
       cursor: 'pointer'
     },
-
     circle: {
       r: circleRadius,
       cx: svgSize / 2,
       cy: svgSize / 2,
-      fill: isSelected ? 'blue' : 'white',
-      stroke: isSelected ? 'blue' : 'orange',
-      strokeWidth: isSelected ? 5 : 3
+      strokeWidth: isSelected ? 5 : 3,
+      fill: isSelected ? 'blue' : 'rgb(29,31,31)',
+      stroke: isSelected ? 'blue' : color()
     }
   };
 };

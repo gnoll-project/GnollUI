@@ -8,7 +8,7 @@ const styles = {
   container: {
     height: '100vh',
     position: 'relative',
-    borderLeft: 'solid 1px black'
+    borderLeft: 'solid 2px rgb(113,115,117)'
   },
   edge: {
     stroke: 'black',

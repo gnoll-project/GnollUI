@@ -11,4 +11,17 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(Renderer);
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    updateCode: (newCode) => {
+      dispatch(NodeActions.updateNode(ownProps.node.id, {
+        code: newCode
+      }));
+    },
+    sendCodeToKernal: (code) => {
+      dispatch(NodeActions.sendToKernal(ownProps.node.id, code));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Renderer);

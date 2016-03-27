@@ -3,13 +3,15 @@ import { COMPONENTS } from '../../../constants/components';
 import NodeThumbnail from './node-thumbnail';
 
 const styles = {
+  fontFamily: 'Hack',
+  color: 'rgb(254,254,254)'
 };
 
 export default () => {
   return (
     <div style={styles}>
       <h1>
-        Components
+        add a node +
       </h1>
       {
         Object.keys(COMPONENTS).map((componentType, i) => {
