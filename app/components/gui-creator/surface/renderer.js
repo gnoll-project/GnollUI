@@ -17,16 +17,35 @@ const styles = {
   }
 };
 
+let left
+
 const surfaceTarget = {
   drop(props, monitor) {
+    const type = monitor.getItemType();
     const item = monitor.getItem();
     const difference = monitor.getDifferenceFromInitialOffset();
-    props.updateNode(item.id, {
-      position: {
-        x: item.position.x + difference.x,
-        y: item.position.y + difference.y
-      }
-    });
+    const offset = monitor.getClientOffset();
+
+    switch (type) {
+      case DraggableTypes.NODE:
+        props.updateNode(item.id, {
+          position: {
+            x: item.position.x + difference.x,
+            y: item.position.y + difference.y
+          }
+        });
+        break
+      case DraggableTypes.INSERT:
+        props.addNode({
+          component: item.component,
+          nodeType: getNodeType(item.component),
+          position: {
+            x: offset.x - left,
+            y: offset.y
+          }
+        });
+        break
+    }
   }
 };
 
@@ -38,30 +57,6 @@ function collect(connect, monitor) {
 }
 
 class Renderer extends Component {
-
-  constructor(props) {
-    super(props);
-    // Manually bind this method to the component instance...
-    this.handleSurfaceClick = this.handleSurfaceClick.bind(this);
-  }
-
-  handleSurfaceClick (e) {
-    if(!this.props.componentToAdd) {
-      return;
-    }
-
-    const offset = this.refs.surface.getBoundingClientRect();
-    const position = {
-      x: e.clientX - offset.left,
-      y: e.clientY - offset.top,
-    };
-
-    this.props.onClick({
-      component: this.props.componentToAdd,
-      nodeType: getNodeType(this.props.componentToAdd),
-      position: position
-    });
-  }
 
   render () {
     const { nodes, edges, connectDropTarget } = this.props;
@@ -75,8 +70,9 @@ class Renderer extends Component {
       <div
         style={styles.container}>
         <div
-          ref='surface'
-          onClick={this.handleSurfaceClick}
+          ref={(surface) => {
+            if (surface) left = surface.getBoundingClientRect().left
+          }}
           style={{width: '100%', height: '100%'}} >
           <svg width='100%' height='100%'>
             {Object.keys(edges).map((fromId, i) => {
@@ -106,4 +102,4 @@ class Renderer extends Component {
 }
 
 
-export default DropTarget(DraggableTypes.NODE, surfaceTarget, collect)(Renderer);
+export default DropTarget([DraggableTypes.NODE, DraggableTypes.INSERT], surfaceTarget, collect)(Renderer);

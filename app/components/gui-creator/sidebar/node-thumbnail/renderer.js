@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {getNodeType} from '../../../../constants/components'
+import { DraggableTypes } from '../../../../constants/drag';
+import { DragSource } from 'react-dnd';
 
-const getStyles = (component, isSelected) => {
+const getStyles = (component) => {
   const circleRadius = 20;
   const outerPadding = 10;
   const svgSize = 2 * (circleRadius + outerPadding);
@@ -35,28 +37,45 @@ const getStyles = (component, isSelected) => {
       r: circleRadius,
       cx: svgSize / 2,
       cy: svgSize / 2,
-      fill: isSelected ? color() : 'rgb(29,31,31)',
-      stroke: isSelected ? color() : color(),
+      fill: 'rgb(29,31,31)',
+      stroke: color(),
       strokeWidth: 5,
       cursor: 'pointer'
     }
   };
 };
 
-export default ({
-  component,
-  selectedComponent,
-  onClick
-}) => {
-
-  const isSelected = component === selectedComponent;
-  const styles = getStyles(component, isSelected);
-
-  return (
-    <div style={styles.wrapper} onClick={onClick}>
-      <svg style={styles.svg}>
-        <circle style={styles.circle}/>
-      </svg>
-    </div>
-  );
+const insertSource = {
+  beginDrag(props) {
+    return { component: props.component };
+  }
 };
+
+const collect = (connect, monitor) => {
+  return {
+    // Call this function inside render()
+    // to let React DnD handle the drag events:
+    connectDragSource: connect.dragSource(),
+    // You can ask the monitor about the current drag state:
+    isDragging: monitor.isDragging()
+  };
+}
+
+class Renderer extends Component {
+
+  render () {
+    const {component, selectedComponent, onClick, connectDragSource} = this.props 
+
+    const styles = getStyles(component);
+
+    return connectDragSource(
+      <div style={styles.wrapper} onClick={onClick}>
+        <svg style={styles.svg}>
+          <circle style={styles.circle}/>
+        </svg>
+      </div>
+    );
+  }
+};
+
+export default DragSource(DraggableTypes.INSERT, insertSource, collect)(Renderer);
