@@ -3,6 +3,7 @@ import * as COMPONENTS from '../../../constants/components';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import Editor from './editor';
 import TopBar from './top-bar';
+import Icon from './icon';
 import { DragSource } from 'react-dnd';
 
 const getReactComponent = (node) => {
@@ -13,7 +14,7 @@ const getStyles = (node, isSelected) => {
   return {
     outer: {
       position: 'absolute',
-      backgroundColor: '#D8D8D8',
+      // backgroundColor: '#D8D8D8',
       left: node.position.x,
       top: node.position.y,
       zIndex: isSelected ? 1000 : 100
@@ -21,15 +22,6 @@ const getStyles = (node, isSelected) => {
   };
 };
 
-const validateEdge = (from, to) => {
-  const fromType = COMPONENTS.getNodeType(from.component);
-  const toType = COMPONENTS.getNodeType(to.component);
-  if(fromType === COMPONENTS.TRANSFORM_NODE) {
-      return COMPONENTS.NODE_TYPES.indexOf(fromType) <= COMPONENTS.NODE_TYPES.indexOf(toType);
-  }
-
-  return COMPONENTS.NODE_TYPES.indexOf(fromType) < COMPONENTS.NODE_TYPES.indexOf(toType);
-}
 
 export default class Renderer extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate;
@@ -96,11 +88,16 @@ export default class Renderer extends Component {
       <div
         style={styles.outer}
         onClick={this.handleOuterClick}>
-          <TopBar node={node} />
+
+        <Icon node={node} />
+        {isSelected ? this.renderEditor() : null}
+
+          {/*<TopBar node={node} />
           <div onClick={this.handleClick}>
             <C node={node} />
           </div>
           {isSelected ? this.renderEditor() : null}
+          */}
       </div>
     );
   }

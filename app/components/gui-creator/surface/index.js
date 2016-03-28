@@ -13,10 +13,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onClick: (properties) => {
+    addNode: (properties) => {
       dispatch(NodeActions.addNode(properties));
     },
-
 
     updateNode: (id, properties) => {
       dispatch(NodeActions.updateNode(id, properties));
